@@ -1,0 +1,43 @@
+﻿@model ServerSidePaging.ViewModels.ProductPageVM
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Products - page @Model.Page.ToString()</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Product Category
+        </th>
+        <th>
+            Product
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Price
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Products) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductCategory.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+    </tr>
+}
+
+</table>
