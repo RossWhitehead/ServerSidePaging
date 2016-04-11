@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace ServerSidePaging.Service.Dtos
 {
-    public class ProductPageDto
+    public class PageOfProductsDto
     {
-        List<Product> Products { get; set; }
-        public int Page { get; set; }
+        public IEnumerable<Product> Products { get; set; }
+        public int TotalCount { get; set; }
+
     }
 }

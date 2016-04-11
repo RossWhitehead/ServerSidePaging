@@ -4,6 +4,7 @@ using ServerSidePaging.Data.Interfaces;
 using ServerSidePaging.Data;
 using ServerSidePaging.Service.Interfaces;
 using BikeStore.Service;
+using AutoMapper;
 
 namespace ServerSidePaging.App_Start
 {
@@ -35,9 +36,12 @@ namespace ServerSidePaging.App_Start
         /// change the defaults), as Unity allows resolving a concrete type even if it was not previously registered.</remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
-            // TODO: Register your types here
             container.RegisterType<IServerSidePagingUnitOfWork, ServerSidePagingUnitOfWork>();
             container.RegisterType<IProductService, ProductService>();
+
+            container.RegisterInstance<IMapper>(
+                new MapperConfiguration(cfg => cfg.AddProfile<WebMapperProfile>()).CreateMapper()
+                );
         }
     }
 }

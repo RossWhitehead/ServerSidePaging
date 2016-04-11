@@ -2,11 +2,10 @@
 using Framework.Service;
 using ServerSidePaging.Data.Interfaces;
 using ServerSidePaging.Model;
+using ServerSidePaging.Service.Dtos;
 using ServerSidePaging.Service.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace BikeStore.Service
@@ -26,7 +25,7 @@ namespace BikeStore.Service
             this.validatonDictionary = validationDictionary;
         }
 
-        public IEnumerable<Product> GetProducts(Expression<Func<Product, bool>> filter, int page, int pageSize, params SortExpression<Product>[] sortExpressions)
+        public PageOfProductsDto GetProducts(Expression<Func<Product, bool>> filter, int page, int pageSize, params SortExpression<Product>[] sortExpressions)
         {
             IEnumerable<Product> products = this.unitOfWork.ProductRepository.Get(
                 filter,
@@ -35,7 +34,7 @@ namespace BikeStore.Service
                 pageSize,
                 sortExpressions);
 
-            return products;        
+            return new PageOfProductsDto() { Products = products, TotalCount = 6};        
         }
     }
 }

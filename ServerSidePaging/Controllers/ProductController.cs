@@ -1,39 +1,38 @@
-﻿using DataTables.Mvc;
+﻿using AutoMapper;
 using Framework.Data;
-using ServerSidePaging.Data.Interfaces;
 using ServerSidePaging.Model;
+using ServerSidePaging.Service.Dtos;
 using ServerSidePaging.Service.Interfaces;
 using ServerSidePaging.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Web.Mvc;
 
 namespace ServerSidePaging.Controllers
 {
-    public class ProductController : Controller
+    public partial class ProductController : Controller
     {
+        private IMapper mapper;
         private IProductService productService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IMapper mapper, IProductService productService)
         {
+            this.mapper = mapper;
             this.productService = productService;
         }
 
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
-            List<Product> products = this.productService.GetProducts(
+            PageOfProductsDto pageOfProductsDto = this.productService.GetProducts(
                 p => p.Price > 1000,
                 2,
                 2,
                 new SortExpression<Product>(p => p.Name, ListSortDirection.Ascending),
-                new SortExpression<Product>(p => p.Description, ListSortDirection.Descending)).ToList();
+                new SortExpression<Product>(p => p.Description, ListSortDirection.Descending));
 
-            ProductPageVM vm = new ProductPageVM { Products = products, Page = 2 };
+            ProductIndexVM vm = new ProductIndexVM { Products = pageOfProductsDto.Products.ToList(), Page = 2, TotalCount = pageOfProductsDto.TotalCount };
 
-            return View(vm);
+            return View(Views.ViewNames.Index, vm);
         }
     }
 }
