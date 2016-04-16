@@ -23,14 +23,14 @@ namespace ServerSidePaging.Controllers
 
         public virtual ActionResult Index()
         {
-            PageOfProductsDto pageOfProductsDto = this.productService.GetProducts(
+            var pageOfProductsDto = this.productService.GetProducts(
                 p => p.Price > 1000,
                 2,
                 2,
                 new SortExpression<Product>(p => p.Name, ListSortDirection.Ascending),
                 new SortExpression<Product>(p => p.Description, ListSortDirection.Descending));
 
-            ProductIndexVM vm = new ProductIndexVM { Products = pageOfProductsDto.Products.ToList(), Page = 2, TotalCount = pageOfProductsDto.TotalCount };
+            var vm = new ProductIndexVM { Products = pageOfProductsDto.Products.ToList(), Page = 2, TotalCount = pageOfProductsDto.TotalCount };
 
             return View(Views.ViewNames.Index, vm);
         }
